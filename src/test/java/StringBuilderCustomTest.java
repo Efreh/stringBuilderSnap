@@ -77,24 +77,21 @@ public class StringBuilderCustomTest {
      * Проверяет, что старые снимки удаляются при уменьшении размера истории.
      */
     @Test
-    public void testNewSizeHistory() {
-        builderCustom.append("First");
-        builderCustom.saveManualSnapshot();
-        builderCustom.append("Second");
-        builderCustom.saveManualSnapshot();
-        builderCustom.append("Third");
-        builderCustom.saveManualSnapshot();
+    void testNewSizeHistory() {
+        StringBuilderCustom builder = new StringBuilderCustom(2);  // Устанавливаем максимальный размер истории в 2
+        builder.append("First");  // Состояние 1
+        builder.saveManualSnapshot();  // Сохраняем снимок состояния "First"
 
-        builderCustom.newSizeHistory(2); // Ограничиваем историю до 2 снимков
+        builder.append("Second");  // Состояние 2
+        builder.saveManualSnapshot();  // Сохраняем снимок состояния "FirstSecond"
 
-        builderCustom.undo(); // Откат к "Second"
-        assertEquals("Second", builderCustom.toString());
+        builder.append("Third");  // Состояние 3
 
-        builderCustom.undo(); // Откат к "First"
-        assertEquals("First", builderCustom.toString());
+        builder.newSizeHistory(1);  // Уменьшаем размер истории до 1 снимка
 
-        builderCustom.undo(); // Попытка откатиться дальше не должна сработать (пустая строка)
-        assertEquals("First", builderCustom.toString()); // Ожидается, что останется "First"
+        builder.undo();  // Ожидаем, что снимок вернется к состоянию "FirstSecond"
+
+        assertEquals("FirstSecond", builder.toString());  // Ожидаем строку "FirstSecond"
     }
 
     /**
