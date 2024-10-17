@@ -64,13 +64,18 @@ public class StringBuilderCustomTest {
      */
     @Test
     public void testManualSnapshot() {
-        builderCustom.append("Initial");
-        builderCustom.saveManualSnapshot(); // Сохраняем снимок вручную
+        builderCustom.offAutoSnapshot();  // Выключаем автосохранение
 
+        builderCustom.saveManualSnapshot();  // Вручную сохраняем снимок
+        builderCustom.append("Initial");
+
+        builderCustom.saveManualSnapshot();  // Сохраняем снимок после изменений
         builderCustom.append(" Updated");
-        builderCustom.undo(); // Откатываемся к снимку
-        assertEquals("Initial", builderCustom.toString()); // Должно быть "Initial" после отката
+
+        builderCustom.undo();  // Откатываемся к предыдущему снимку
+        assertEquals("Initial", builderCustom.toString());  // Проверяем, что состояние вернулось к "Initial"
     }
+
 
     /**
      * Тест для изменения максимального размера истории.
