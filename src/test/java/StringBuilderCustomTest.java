@@ -106,7 +106,6 @@ public class StringBuilderCustomTest {
     @Test
     public void testClearHistory() {
         builderCustom.append("Some text");
-        builderCustom.saveManualSnapshot();
 
         builderCustom.append(" More text");
         builderCustom.clearHistory(); // Очищаем всю историю
